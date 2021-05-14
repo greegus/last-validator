@@ -9,7 +9,7 @@ npm i last-validator
 ```
 
 ```
-yarn add npm i last-validator
+yarn add last-validator
 ```
 
 ## Usage
