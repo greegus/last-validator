@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "declaration": false,
+    "lib": ["esnext", "dom"],
+    "module": "esnext",
+    "target": "es2015",
+    "strict": true,
+    "moduleResolution": "node",
+    "sourceMap": true
+  },
+  "include": [
+    "src"
+  ],
+  "compileOnSave": false
+}
