@@ -15,10 +15,7 @@ yarn add last-validator
 ## Usage
 
 ```typescript
-import { validate } from 'last-validator'
-import { isRequired } from 'last-validator/validators/isRequired'
-import { isValidEmail } from 'last-validator/validators/isValidEmail'
-import { hasMinValue } from 'last-validator/validators/hasMinValue'
+import { validate, isRequired, isValidEmail, hasMinValue } from 'last-validator'
 
 const data = {
   fullName: 'Too Young',
@@ -49,8 +46,7 @@ const { isValid, errors } = await validate(data, rules)
 ### Validate arrays
 
 ```typescript
-import { validateAll } from 'last-validator'
-import { isRequired } from 'last-validator/validators/isRequired'
+import { validateAll, isRequired } from 'last-validator'
 
 const jobPositions = [
   {
@@ -101,7 +97,7 @@ const rules = (job) => ({
 ## Custom validators
 
 ```typescript
-import { Validator } from 'last-validator'
+import { validate, Validator } from 'last-validator'
 
 const isValidAddress: Validator = async ({ value, resolve, reject }) => {
   const result = await validateAddressOnBackend(value)

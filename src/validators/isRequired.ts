@@ -1,4 +1,4 @@
-import { Validator } from "../../types"
+import { Validator } from "../types"
 
 import isNumber from 'lodash/isNumber'
 import isEmpty from 'lodash/isEmpty'

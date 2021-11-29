@@ -2,7 +2,7 @@ import isNumber from "lodash/isNumber"
 import isString from "lodash/isString"
 import isNaN from "lodash/isNaN"
 
-import { Validator } from "../../types"
+import { Validator } from "../types"
 import { isNotSet } from "../utils/isNotSet"
 
 export function isNumeric(message?: string): Validator {

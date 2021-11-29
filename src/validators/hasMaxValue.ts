@@ -2,7 +2,7 @@ import isNumber from "lodash/isNumber"
 import isString from "lodash/isString"
 import isDate from "lodash/isDate"
 
-import { Validator } from "../../types"
+import { Validator } from "../types"
 import { isNotSet } from "../utils/isNotSet"
 
 export function hasMaxValue(maxValue: number, message?: string): Validator {

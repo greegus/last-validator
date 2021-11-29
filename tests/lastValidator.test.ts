@@ -1,4 +1,4 @@
-import { Validator } from '../types/index'
+import { Validator } from '../src/types'
 import { validate, validateAll } from '../dist/index'
 
 function isTrue ({ value, resolve, reject }): Validator {

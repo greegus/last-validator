@@ -1,5 +1,5 @@
-import { Validator, ValidationResults, ValidationRules } from '../types'
 import isEmpty from 'lodash/isEmpty'
+import { Validator, ValidationResults, ValidationRules } from './types'
 
 function validateAttributeValue(data: any, attribute: string, validator: Validator) {
   const value = data[attribute]
