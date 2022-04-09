@@ -20,14 +20,9 @@ describe('hasMaxLength', () => {
       expect(isValid).toBe(true);
     })
 
-    test('number (7)', async () => {
-      const { isValid } = await validate({ value: 7}, { value: [hasMaxLength(maxLength)]})
+    test('number with fewer digits then minLength', async () => {
+      const { isValid } = await validate({ value: 10_000 }, { value: [hasMaxLength(maxLength)]})
       expect(isValid).toBe(true);
-    })
-
-    test('array with more items', async () => {
-      const { isValid } = await validate({ value: Array.from({ length: 7 }) }, { value: [hasMaxLength(maxLength)]})
-      expect(isValid).toBe(false);
     })
 
     test('undefined', async () => {
