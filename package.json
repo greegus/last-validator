@@ -10,11 +10,11 @@
   "author": "Matúš Duchoň <matus.duchon@gmail.com>",
   "scripts": {
     "build": "rm -rf ./dist && tsc && jest",
-    "prepublish": "build"
+    "prepublish": "build",
+    "test": "jest"
   },
   "files": [
-    "dist",
-    "types"
+    "./dist"
   ],
   "dependencies": {
     "lodash": "^4.17.21"
