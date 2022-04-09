@@ -10,7 +10,7 @@
   "author": "Matúš Duchoň <matus.duchon@gmail.com>",
   "scripts": {
     "build": "rm -rf ./dist && tsc && jest",
-    "prepublish": "build",
+    "prepublish": "yarn build",
     "test": "jest"
   },
   "files": [
