@@ -27,18 +27,25 @@ describe('lastValidator', () => {
     test('invalid data', async () => {
       const data = {
         foo: true,
-        bar: false
+        bar: false,
+        deep: {
+          bar: false
+        }
       }
 
       const rules = {
         foo: [isTrue],
-        bar: [isTrue]
+        bar: [isTrue],
+        'deep.bar': [isTrue]
       }
 
       const { isValid, errors } = await validate(data, rules)
 
       expect(errors).toEqual({
-        bar: 'Error message'
+        bar: 'Error message',
+        deep: {
+          bar: 'Error message'
+        }
       });
 
       expect(isValid).toBe(false);

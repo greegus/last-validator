@@ -1,8 +1,10 @@
 import isEmpty from 'lodash/isEmpty'
+import get from 'lodash/get'
+import set from 'lodash/set'
 import { Validator, ValidationResults, ValidationRules } from './types'
 
 function validateAttributeValue(data: any, attribute: string, validator: Validator) {
-  const value = data[attribute]
+  const value = get(data, attribute)
 
   if (typeof validator !== 'function') {
     return
@@ -30,13 +32,7 @@ export async function validate<T = any>(data: any, rules: ValidationRules<T>): P
 
   const errors = (await Promise.all(promises))
     .filter(({ errors }) => errors.length > 0)
-    .reduce(
-      (errorsByAttribute, error) => ({
-        ...errorsByAttribute,
-        [error.attr]: error.errors.shift()
-      }),
-      {}
-    )
+    .reduce((errorsByAttribute, error) => set(errorsByAttribute, error.attr, error.errors.shift()), {})
 
   return {
     isValid: isEmpty(errors),
