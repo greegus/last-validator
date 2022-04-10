@@ -21,13 +21,13 @@ const data = {
   fullName: 'Too Young',
   address: ''
   age: 12
-  email: 'email(at)me.com'
+  email: 'invalid_email_format(at)me.com'
 }
 
 const rules = {
   fullName: [ isRequired() ],
   address: [ isRequired('Address is required') ],
-  age: [ isRequired(), isGreaterOrEqualThan(12, "*Sigh*, you're too young to drive this thing!") ],
+  age: [ isRequired(), isGreaterOrEqualThan(15, "*Sigh*, you're too young to drive this thing!") ],
   email: [ isEmail() ]
 }
 
