@@ -1,3 +1,5 @@
+export * from './index'
+
 export type Validator = (options: {
   value: any
   data: any

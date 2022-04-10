@@ -5,16 +5,16 @@ import isDate from "lodash/isDate"
 import { Validator } from "../types"
 import { isNotSet } from "../utils/isNotSet"
 
-export function hasMaxValue(maxValue: number, message?: string): Validator {
+export function isLessThan(minValue: number | Date, errorMessage?: string, { orEqual }: { orEqual?: boolean } = {}): Validator {
   return ({ value, resolve, reject }) => {
     if (isNotSet(value)) {
       return resolve()
     }
 
-    if ((isString(value) || isNumber(value) || isDate(value)) && value <= maxValue) {
+    if ((isString(value) || isNumber(value) || isDate(value)) && (orEqual ? value <= minValue : value < minValue)) {
       return resolve()
     }
 
-    reject(message)
+    reject(errorMessage)
   }
 }

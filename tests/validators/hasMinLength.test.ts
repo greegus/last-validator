@@ -1,5 +1,4 @@
-import { validate } from '../../dist/index'
-import { hasMinLength } from '../../dist/validators/hasMinLength'
+import { validate, hasMinLength } from '../../dist/index'
 
 const minLength = 6
 

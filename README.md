@@ -15,7 +15,7 @@ yarn add last-validator
 ## Usage
 
 ```typescript
-import { validate, isRequired, isValidEmail, hasMinValue } from 'last-validator'
+import { validate, isRequired, isEmail, isGreaterOrEqualThan } from 'last-validator'
 
 const data = {
   fullName: 'Too Young',
@@ -27,8 +27,8 @@ const data = {
 const rules = {
   fullName: [ isRequired() ],
   address: [ isRequired('Address is required') ],
-  age: [ isRequired(), hasMinValue(15, "*Sigh*, you're too young to drive this thing!") ],
-  email: [ isValidEmail() ]
+  age: [ isRequired(), isGreaterOrEqualThan(12, "*Sigh*, you're too young to drive this thing!") ],
+  email: [ isEmail() ]
 }
 
 const { isValid, errors } = await validate(data, rules)
@@ -79,7 +79,7 @@ If you need to adjust the rules dynamically, you can just pass a function that w
 
 ```typescript
 const rules = (job) => ({
-  endDate: [hasMaxValue(job.startDate)]
+  endDate: [isLessOrEqualThan(job.startDate)]
 
   // ...
 })
@@ -89,10 +89,14 @@ const rules = (job) => ({
 
 - `isRequired(errorMessage?: string)`
 - `isNumeric(errorMessage?: string)`
-- `hasMinValue(minValue: number, errorMessage?: string)`
-- `hasMaxValue(maxValue: number, errorMessage?: string)`
+- `isGreaterThan(minValue: number | Date, errorMessage?: string)`
+- `isGreaterOrEqualThan(minValue: number | Date, errorMessage?: string)`
+- `isLessThan(maxValue: number | Date, errorMessage?: string)`
+- `isLessOrEqualThan(maxValue: number | Date, errorMessage?: string)`
+- `hasMinLength(minLength: number, errorMessage?: string)`
 - `hasMaxLength(maxLength: number, errorMessage?: string)`
-- `isValidEmail(errorMessage?: string)`
+- `isEmail(errorMessage?: string)`
+- `test(condition: (value: any) => Promise<boolean> | boolean, errorMessage?: string)`
 
 ## Custom validators
 
@@ -106,4 +110,16 @@ const isValidAddress: Validator = async ({ value, resolve, reject }) => {
 
 const address = { ... }
 const { isValid, errors } = await validate({ address }, { address: [isValidAddress] })
+```
+
+### `test` validator helper
+
+In order to streamline usage of custom validations you can also leverage the `test` inline validator.
+
+```typescript
+const rules = {
+  cake: [isRequired(), test(cake => cake.flavour === 'chocolate', 'Only chocolate cakes are accepted here')]
+
+  // ...
+}
 ```

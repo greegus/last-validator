@@ -1,5 +1,4 @@
-import { validate } from '../../dist/index'
-import { hasMaxLength } from '../../dist/validators/hasMaxLength'
+import { validate, hasMaxLength } from '../../dist/index'
 
 const maxLength = 6
 

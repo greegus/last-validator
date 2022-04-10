@@ -5,7 +5,7 @@ import isNaN from "lodash/isNaN"
 import { Validator } from "../types"
 import { isNotSet } from "../utils/isNotSet"
 
-export function hasMinLength(minLength: number, message?: string): Validator {
+export function hasMinLength(minLength: number, errorMessage?: string): Validator {
   return ({ value, resolve, reject }) => {
     if (isNotSet(value)) {
       return resolve()
@@ -19,6 +19,6 @@ export function hasMinLength(minLength: number, message?: string): Validator {
       return resolve()
     }
 
-    reject(message)
+    reject(errorMessage)
   }
 }

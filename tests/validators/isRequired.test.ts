@@ -1,5 +1,4 @@
-import { validate } from '../../dist/index'
-import { isRequired } from '../../dist/validators/isRequired'
+import { validate, isRequired } from '../../dist/index'
 
 describe('isRequired', () => {
   describe('handles valid values:', () => {

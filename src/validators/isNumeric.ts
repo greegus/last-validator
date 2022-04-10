@@ -5,7 +5,7 @@ import isNaN from "lodash/isNaN"
 import { Validator } from "../types"
 import { isNotSet } from "../utils/isNotSet"
 
-export function isNumeric(message?: string): Validator {
+export function isNumeric(errorMessage?: string): Validator {
   return ({ value, resolve, reject }) => {
     if (isNotSet(value)) {
       return resolve()
@@ -19,6 +19,6 @@ export function isNumeric(message?: string): Validator {
       return resolve()
     }
 
-    reject(message)
+    reject(errorMessage)
   }
 }

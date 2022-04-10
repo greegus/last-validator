@@ -5,7 +5,7 @@ import isEmpty from 'lodash/isEmpty'
 import isNaN from 'lodash/isNaN'
 import isDate from 'lodash/isDate'
 
-export const isRequired = (message?: string, { acceptWhitespaces }: { acceptWhitespaces?: boolean } = {}): Validator => {
+export const isRequired = (errorMessage?: string, { acceptWhitespaces }: { acceptWhitespaces?: boolean } = {}): Validator => {
   return ({ value, resolve, reject }) => {
     if (value === true) {
       return resolve()
@@ -16,7 +16,7 @@ export const isRequired = (message?: string, { acceptWhitespaces }: { acceptWhit
     }
 
     if (isDate(value)) {
-      return isNaN(value?.getTime()) ? reject(message) : resolve()
+      return isNaN(value?.getTime()) ? reject(errorMessage) : resolve()
     }
 
     if (!acceptWhitespaces && typeof value === 'string') {
@@ -27,6 +27,6 @@ export const isRequired = (message?: string, { acceptWhitespaces }: { acceptWhit
       return resolve()
     }
 
-    reject(message)
+    reject(errorMessage)
   }
 }
