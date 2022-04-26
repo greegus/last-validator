@@ -1,4 +1,4 @@
-import { validate, isGreaterThan } from '../../dist/index'
+import { validate, isGreaterThan } from '../../dist'
 
 const minValue = 10
 const minDate = new Date(2010)

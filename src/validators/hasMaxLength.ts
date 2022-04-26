@@ -4,7 +4,7 @@ import isNaN from "lodash/isNaN"
 
 import { Validator } from "../types"
 import { isNotSet } from "../utils/isNotSet"
-import { defaultErrorMessages } from "../lastValidator"
+import { defaultErrorMessages } from "../defaultErrorMessages"
 
 export function hasMaxLength(maxLength: number, errorMessage?: string): Validator {
   errorMessage = errorMessage || defaultErrorMessages.hasMaxLength

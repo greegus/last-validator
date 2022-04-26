@@ -1,4 +1,4 @@
-import { validate, isEmail } from '../../dist/index'
+import { validate, isEmail } from '../../dist'
 
 describe('isEmail', () => {
   describe('handles valid values:', () => {

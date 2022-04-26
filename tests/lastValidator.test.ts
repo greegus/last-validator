@@ -1,7 +1,7 @@
 import { Validator } from '../src/types'
-import { validate, validateAll } from '../dist/index'
+import { validate, validateAll } from '../dist'
 
-function isTrue ({ value, resolve, reject }): Validator {
+const isTrue = ({ value, resolve, reject }): Validator => {
   return value ? resolve() : reject('Error message')
 }
 

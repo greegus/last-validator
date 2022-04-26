@@ -4,7 +4,7 @@ import isDate from "lodash/isDate"
 
 import { Validator } from "../types"
 import { isNotSet } from "../utils/isNotSet"
-import { defaultErrorMessages } from "../lastValidator"
+import { defaultErrorMessages } from "../defaultErrorMessages"
 
 export function isLessThan(minValue: number | Date, errorMessage?: string, { orEqual }: { orEqual?: boolean } = {}): Validator {
   errorMessage = errorMessage || defaultErrorMessages.isLessThan

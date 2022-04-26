@@ -1,4 +1,4 @@
-import { validate, test as inlineTest } from '../../dist/index'
+import { validate, test as inlineTest } from '../../dist'
 
 describe('test', () => {
   test('handles valid values:', async () => {

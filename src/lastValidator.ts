@@ -2,7 +2,6 @@ import isEmpty from 'lodash/isEmpty'
 import get from 'lodash/get'
 import set from 'lodash/set'
 import { Validator, ValidationResults, ValidationRules } from './types'
-import * as validators from './validators'
 
 function validateAttributeValue(data: any, attribute: string, validator: Validator) {
   const value = get(data, attribute)
@@ -63,10 +62,4 @@ export async function validateAll<T = any>(
   )
 
   return results
-}
-
-export const defaultErrorMessages: Partial<{ [key in keyof Omit<typeof validators, 'test'>]: string }> = {}
-
-export function setDefaultErrorMessages(errorMessages: typeof defaultErrorMessages) {
-  Object.assign(defaultErrorMessages, errorMessages)
 }

@@ -1,4 +1,4 @@
-import { validate, isNumeric } from '../../dist/index'
+import { validate, isNumeric } from '../../dist'
 
 describe('isNumeric', () => {
   describe('handles valid values:', () => {

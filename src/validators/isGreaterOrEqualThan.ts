@@ -1,4 +1,4 @@
-import { defaultErrorMessages } from "../lastValidator"
+import { defaultErrorMessages } from "../defaultErrorMessages"
 import { Validator } from "../types"
 import { isGreaterThan } from "./isGreaterThan"
 

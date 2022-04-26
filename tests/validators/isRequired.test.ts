@@ -1,4 +1,4 @@
-import { validate, isRequired } from '../../dist/index'
+import { validate, isRequired } from '../../dist'
 
 describe('isRequired', () => {
   describe('handles valid values:', () => {

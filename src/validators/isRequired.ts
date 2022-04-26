@@ -4,7 +4,7 @@ import isNumber from 'lodash/isNumber'
 import isEmpty from 'lodash/isEmpty'
 import isNaN from 'lodash/isNaN'
 import isDate from 'lodash/isDate'
-import { defaultErrorMessages } from "../lastValidator"
+import { defaultErrorMessages } from "../defaultErrorMessages"
 
 export const isRequired = (errorMessage?: string, { acceptWhitespaces }: { acceptWhitespaces?: boolean } = {}): Validator => {
   errorMessage = errorMessage || defaultErrorMessages.isRequired
