@@ -4,8 +4,11 @@ import isNaN from "lodash/isNaN"
 
 import { Validator } from "../types"
 import { isNotSet } from "../utils/isNotSet"
+import { defaultErrorMessages } from "../lastValidator"
 
 export function isNumeric(errorMessage?: string): Validator {
+  errorMessage = errorMessage || defaultErrorMessages.isNumeric
+
   return ({ value, resolve, reject }) => {
     if (isNotSet(value)) {
       return resolve()

@@ -123,3 +123,16 @@ const rules = {
   // ...
 }
 ```
+
+### Default error messages
+
+You can use `setDefaultErrorMessages` to set a default error message for each built-in validator.
+
+```typescript
+import { setDefaultErrorMessages } from 'last-validator'
+
+setDefaultErrorMessages({
+  isRequired: 'Field is required.',
+  ...
+})
+```
