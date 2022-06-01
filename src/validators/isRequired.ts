@@ -26,6 +26,11 @@ export const isRequired = (errorMessage?: string, { acceptWhitespaces }: { accep
       value = value.trim()
     }
 
+    // Dummy way of testing a Blob
+    if (value && typeof value === 'object' && 'arrayBuffer' in value) {
+      return resolve()
+    }
+
     if (!isEmpty(value)) {
       return resolve()
     }

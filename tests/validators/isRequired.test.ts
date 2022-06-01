@@ -1,3 +1,5 @@
+import { Blob } from 'node:buffer'
+
 import { validate, isRequired } from '../../dist'
 
 describe('isRequired', () => {
@@ -34,6 +36,11 @@ describe('isRequired', () => {
 
     test('Array', async () => {
       const { isValid } = await validate({ value: ['foo'] }, { value: [isRequired()]})
+      expect(isValid).toBe(true);
+    })
+
+    test('Blob (File)', async() => {
+      const { isValid } = await validate({ value: new Blob(['1']) }, { value: [isRequired()]})
       expect(isValid).toBe(true);
     })
   })
