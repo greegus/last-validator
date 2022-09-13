@@ -1,6 +1,6 @@
 import { validate, isNumeric } from '../../dist'
 
-describe('isNumeric', () => {
+describe('#isNumeric', () => {
   describe('handles valid values:', () => {
     test('number', async () => {
       const { isValid } = await validate({ value: 1}, { value: [isNumeric()]})
@@ -57,6 +57,6 @@ describe('isNumeric', () => {
 
   test('returns error message', async () => {
     const { errors } = await validate({ value: 'dolor sid amed' }, { value: [isNumeric('Error message')]})
-    expect(errors.value).toBe('Error message');
+    expect(errors.value).toStrictEqual(['Error message']);
   })
 });

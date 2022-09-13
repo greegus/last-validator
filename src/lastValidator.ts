@@ -1,65 +1,42 @@
-import isEmpty from 'lodash/isEmpty'
-import get from 'lodash/get'
-import set from 'lodash/set'
-import { Validator, ValidationResults, ValidationRules } from './types'
+import { ValidationResults, ValidationRules, Validator } from './types'
 
-function validateAttributeValue(data: any, attribute: string, validator: Validator) {
-  const value = get(data, attribute)
+export async function validate<T extends Record<string, any> = any>(data: T, rules: ValidationRules<T>): Promise<ValidationResults<T>> {
+  const promises = (Object.entries(rules)).map(async ([attribute, validators]: [string, ValidationRules<T>[string]]) => {
+    // Sanitize attributes with undefined validators
+    if (!validators) {
+      validators = [] as any
+    }
 
-  if (typeof validator !== 'function') {
-    return
-  }
+    // Generate validators array if a function is provided
+    if (typeof validators === 'function') {
+      validators = validators(data[attribute], data)
+    }
 
-  return new Promise<void>((resolve) => {
-    validator({
-      value,
-      data,
-      resolve: () => resolve(),
-      reject: (messsage) => resolve(messsage || true)
-    })
+    // Recursive validation of nested attributes
+    if (typeof validators === 'object' && validators !== null && !Array.isArray(validators)) {
+      const results = await validate(data[attribute], validators)
+      return { attribute, ...results }
+    }
+
+    // Execute all validators
+    const promises = (validators as Validator[]).map((validator) => validator(data[attribute], data))
+    const results = await Promise.all(promises)
+
+    // Process results
+    const isValid = results.every(result => result.isValid)
+    const errors = results.map(result => result.isValid ? undefined : (result.errors || true))
+
+    return { attribute, isValid, errors }
   })
-}
 
-export async function validate<T = any>(data: any, rules: ValidationRules<T>): Promise<ValidationResults<T>> {
-  const promises = (Object.entries(rules) as [string, Validator[]][]).map(async ([attribute, validators]) => {
-    const useValidator = (validator: Validator) => validateAttributeValue(data, attribute, validator)
+  // Execute validation of all of the attributes
+  const results = (await Promise.all(promises))
 
-    const results = await Promise.all(validators.map(useValidator))
-    const errors = results.filter(Boolean)
-
-    return { attr: attribute, errors }
-  })
-
-  const errors = (await Promise.all(promises))
-    .filter(({ errors }) => errors.length > 0)
-    .reduce((errorsByAttribute, error) => set(errorsByAttribute, error.attr, error.errors.shift()), {})
+  const isValid = results.every(result => result.isValid)
+  const errors = results.reduce((errorsByAttribute, result) => ({ ...errorsByAttribute, [result.attribute]: result.errors }), {})
 
   return {
-    isValid: isEmpty(errors),
+    isValid,
     errors
   }
-}
-
-export async function validateAll<T = any>(
-  items: T[],
-  rules: object | ((item: T) => ValidationRules)
-): Promise<ValidationResults<T>> {
-  const validations = items.map(async (item) =>
-    validate(item, typeof rules === 'function' ? rules(item) : rules)
-  )
-
-  const results: ValidationResults<T> = (await Promise.all(validations)).reduce(
-    (results, { isValid, errors }, index) => {
-      return {
-        isValid: results.isValid && isValid,
-        errors: isEmpty(errors) ? results.errors : { ...results.errors, [index]: errors }
-      }
-    },
-    {
-      isValid: true,
-      errors: {}
-    }
-  )
-
-  return results
 }

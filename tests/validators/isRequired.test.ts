@@ -2,7 +2,7 @@ import { Blob } from 'node:buffer'
 
 import { validate, isRequired } from '../../dist'
 
-describe('isRequired', () => {
+describe('#isRequired', () => {
   describe('handles valid values:', () => {
     test('string', async () => {
       const { isValid } = await validate({ value: 'foo' }, { value: [isRequired()]})
@@ -41,6 +41,11 @@ describe('isRequired', () => {
 
     test('Blob (File)', async() => {
       const { isValid } = await validate({ value: new Blob(['1']) }, { value: [isRequired()]})
+      expect(isValid).toBe(true);
+    }),
+
+    test('string with only whitespaces', async () => {
+      const { isValid } = await validate({ value: ' \t\n' }, { value: [isRequired('Just don\'t be empty', { acceptWhitespaces: true })]})
       expect(isValid).toBe(true);
     })
   })
@@ -95,7 +100,7 @@ describe('isRequired', () => {
 
   test('returns error message', async () => {
     const { errors } = await validate({ value: undefined }, { value: [isRequired('Error message')]})
-    expect(errors.value).toBe('Error message');
+    expect(errors.value).toStrictEqual(['Error message']);
   })
 
   describe('with option', () => {

@@ -1,16 +1,19 @@
 import { Validator } from "../types"
 import { isNotSet } from "../utils/isNotSet"
 
-export const test = (condition: (value: any) => Promise<boolean> | boolean, errorMessage?: string): Validator => {
-  return async ({ value, resolve, reject }) => {
+export const test = (
+  condition: (value: any) => Promise<boolean | undefined> | boolean | undefined,
+  errorMessage?: string
+): Validator => {
+  return async (value) => {
     if (isNotSet(value)) {
-      return resolve()
+      return { isValid: true }
     }
 
     if (await condition(value)) {
-      return resolve()
+      return { isValid: true }
     }
 
-    reject(errorMessage)
+    return { isValid: false, errors: errorMessage }
   }
 }

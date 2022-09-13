@@ -18,7 +18,7 @@ describe('defaultErrorMessages should set a default error message for', () => {
 
     const { errors } = await validate({ isRequired: ''}, {  isRequired: [isRequired()] })
 
-    expect(errors.isRequired).toBe('is required')
+    expect(errors.isRequired).toStrictEqual(['is required'])
   })
 
   it('`isNumeric`', async () => {
@@ -26,7 +26,7 @@ describe('defaultErrorMessages should set a default error message for', () => {
 
     const { errors } = await validate({ isNumeric: 'abc' }, { isNumeric: [isNumeric()] })
 
-    expect(errors.isNumeric).toBe('should be a number')
+    expect(errors.isNumeric).toStrictEqual(['should be a number'])
   })
 
   it('`isEmail`', async () => {
@@ -34,7 +34,7 @@ describe('defaultErrorMessages should set a default error message for', () => {
 
     const { errors } = await validate({ isEmail: 'not.an.email' }, { isEmail: [isEmail()] })
 
-    expect(errors.isEmail).toBe('invalid email')
+    expect(errors.isEmail).toStrictEqual(['invalid email'])
   })
 
   it('`isLessThan`', async () => {
@@ -42,7 +42,7 @@ describe('defaultErrorMessages should set a default error message for', () => {
 
     const { errors } = await validate({ isLessThan: 3 }, { isLessThan: [isLessThan(2)] })
 
-    expect(errors.isLessThan).toBe('should be less than')
+    expect(errors.isLessThan).toStrictEqual(['should be less than'])
   })
 
   it('`isLessThan`', async () => {
@@ -50,7 +50,7 @@ describe('defaultErrorMessages should set a default error message for', () => {
 
     const { errors } = await validate({ isLessThan: 3 }, { isLessThan: [isLessThan(2)] })
 
-    expect(errors.isLessThan).toBe('should be less than')
+    expect(errors.isLessThan).toStrictEqual(['should be less than'])
   })
 
   it('`isLessOrEqualThan`', async () => {
@@ -58,7 +58,7 @@ describe('defaultErrorMessages should set a default error message for', () => {
 
     const { errors } = await validate({ isLessOrEqualThan: 3 }, { isLessOrEqualThan: [isLessOrEqualThan(2)] })
 
-    expect(errors.isLessOrEqualThan).toBe('should be less or equal than')
+    expect(errors.isLessOrEqualThan).toStrictEqual(['should be less or equal than'])
   })
 
   it('`isGreaterThan`', async () => {
@@ -66,7 +66,7 @@ describe('defaultErrorMessages should set a default error message for', () => {
 
     const { errors } = await validate({ isGreaterThan: 3 }, { isGreaterThan: [isGreaterThan(4)] })
 
-    expect(errors.isGreaterThan).toBe('should be greater than')
+    expect(errors.isGreaterThan).toStrictEqual(['should be greater than'])
   })
 
   it('`isGreaterOrEqualThan`', async () => {
@@ -74,7 +74,7 @@ describe('defaultErrorMessages should set a default error message for', () => {
 
     const { errors } = await validate({ isGreaterOrEqualThan: 3 }, { isGreaterOrEqualThan: [isGreaterOrEqualThan(4)] })
 
-    expect(errors.isGreaterOrEqualThan).toBe('should be greater or equal than')
+    expect(errors.isGreaterOrEqualThan).toStrictEqual(['should be greater or equal than'])
   })
 
   it('`hasMinLength`', async () => {
@@ -82,7 +82,7 @@ describe('defaultErrorMessages should set a default error message for', () => {
 
     const { errors } = await validate({ hasMinLength: 'abc' }, { hasMinLength: [hasMinLength(4)] })
 
-    expect(errors.hasMinLength).toBe('should have min length')
+    expect(errors.hasMinLength).toStrictEqual(['should have min length'])
   })
 
   it('`hasMaxLength`', async () => {
@@ -90,6 +90,6 @@ describe('defaultErrorMessages should set a default error message for', () => {
 
     const { errors } = await validate({ hasMaxLength: 'abc' }, { hasMaxLength: [hasMaxLength(2)] })
 
-    expect(errors.hasMaxLength).toBe('should have max length')
+    expect(errors.hasMaxLength).toStrictEqual(['should have max length'])
   })
 })

@@ -1,4 +1,20 @@
 export * from './lastValidator'
 export * from './types'
-export * from './validators'
+
+// Validators
+export { hasMinLength } from './validators/hasMinLength'
+export { hasMaxLength } from './validators/hasMaxLength'
+export { isEqual } from './validators/isEqual'
+export { isLessThan } from './validators/isLessThan'
+export { isLessOrEqualThan } from './validators/isLessOrEqualThan'
+export { isGreaterThan } from './validators/isGreaterThan'
+export { isGreaterOrEqualThan } from './validators/isGreaterOrEqualThan'
+export { isNumeric } from './validators/isNumeric'
+export { isRequired } from './validators/isRequired'
+export { isEmail, emailPattern } from './validators/isEmail'
+export { every, some } from './validators/array'
+export { validBy } from './validators/validBy'
+export { test } from './validators/test'
+
+export { formatErrors } from './utils/formatErrors'
 export { setDefaultErrorMessages } from './defaultErrorMessages'

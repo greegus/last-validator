@@ -5,13 +5,14 @@ import isNaN from "lodash/isNaN"
 import { Validator } from "../types"
 import { isNotSet } from "../utils/isNotSet"
 import { defaultErrorMessages } from "../defaultErrorMessages"
+import { test } from './test'
 
 export function isNumeric(errorMessage?: string): Validator {
   errorMessage = errorMessage || defaultErrorMessages.isNumeric
 
-  return ({ value, resolve, reject }) => {
+  return test((value) => {
     if (isNotSet(value)) {
-      return resolve()
+      return true
     }
 
     if (isString(value)) {
@@ -19,9 +20,7 @@ export function isNumeric(errorMessage?: string): Validator {
     }
 
     if (isNumber(value) && !isNaN(value)) {
-      return resolve()
+      return true
     }
-
-    reject(errorMessage)
-  }
+  }, errorMessage)
 }

@@ -1,6 +1,6 @@
 import { validate, isEmail } from '../../dist'
 
-describe('isEmail', () => {
+describe('#isEmail', () => {
   describe('handles valid values:', () => {
     test('"email@example.com"', async () => {
       const { isValid } = await validate({ value: 'email@example.com' }, { value: [isEmail()]})
@@ -47,6 +47,6 @@ describe('isEmail', () => {
 
   test('returns error message', async () => {
     const { errors } = await validate({ value: 'lookslike(at)email.com' }, { value: [isEmail('Error message')]})
-    expect(errors.value).toBe('Error message');
+    expect(errors.value).toStrictEqual(['Error message']);
   })
 });
