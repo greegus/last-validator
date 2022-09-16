@@ -1,8 +1,9 @@
 import { Validator } from '../src/types'
-import { validate, validateAll } from '../dist'
+import { validate } from '../dist/index'
 
-const isTrue = ({ value, resolve, reject }): Validator => {
-  return value ? resolve() : reject('Error message')
+const isTrue: Validator = async (value) => {
+  const isValid = value === true
+  return { isValid, errors: isValid ? undefined : 'Error message' }
 }
 
 describe('lastValidator', () => {
@@ -10,17 +11,33 @@ describe('lastValidator', () => {
     test('valid data', async () => {
       const data = {
         foo: true,
-        bar: true
+        bar: true,
+        nested: {
+          foo: true,
+          bar: true,
+        }
       }
 
       const rules = {
         foo: [isTrue],
-        bar: [isTrue]
+        bar: [isTrue],
+        nested: {
+          foo: [isTrue],
+          bar: [isTrue],
+        }
       }
 
       const { isValid, errors } = await validate(data, rules)
 
-      expect(errors).toEqual({});
+      expect(errors).toStrictEqual({
+        foo: [undefined],
+        bar: [undefined],
+        nested: {
+          foo: [undefined],
+          bar: [undefined]
+        }
+      });
+
       expect(isValid).toBe(true);
     })
 
@@ -36,77 +53,22 @@ describe('lastValidator', () => {
       const rules = {
         foo: [isTrue],
         bar: [isTrue],
-        'deep.bar': [isTrue]
+        deep: {
+          bar: [isTrue]
+        }
       }
 
       const { isValid, errors } = await validate(data, rules)
 
-      expect(errors).toEqual({
-        bar: 'Error message',
+      expect(errors).toStrictEqual({
+        foo: [undefined],
+        bar: ['Error message'],
         deep: {
-          bar: 'Error message'
+          bar: ['Error message']
         }
       });
 
       expect(isValid).toBe(false);
-    })
-  })
-
-  describe('#validateAll', () => {
-    describe('valid', () => {
-      describe('list of objects', () => {
-        test('with rules as plain object', async () => {
-          const data = [{ foo: true}, { foo: true }]
-          const rules = { foo: [isTrue] }
-
-          const { isValid, errors } = await validateAll(data, rules)
-
-          expect(errors).toEqual({});
-          expect(isValid).toBe(true);
-        })
-
-        test('with rules as callback function', async () => {
-          const data = [{ foo: true}, { foo: true }]
-          const rules = () => ({ foo: [isTrue] })
-
-          const { isValid, errors } = await validateAll(data, rules)
-
-          expect(errors).toEqual({});
-          expect(isValid).toBe(true);
-        })
-      })
-    })
-
-    describe('invalid data', () => {
-      test('with rules as plain object', async () => {
-        const data = [{ foo: true}, { foo: false }]
-        const rules = { foo: [isTrue] }
-
-        const { isValid, errors } = await validateAll(data, rules)
-
-        expect(errors).toEqual({
-          1: {
-            foo: 'Error message'
-          }
-        });
-
-        expect(isValid).toBe(false);
-      })
-
-      test('with rules as callback function', async () => {
-        const data = [{ foo: true}, { foo: false }]
-        const rules = () => ({ foo: [isTrue] })
-
-        const { isValid, errors } = await validateAll(data, rules)
-
-        expect(errors).toEqual({
-          1: {
-            foo: 'Error message'
-          }
-        });
-
-        expect(isValid).toBe(false);
-      })
     })
   })
 })

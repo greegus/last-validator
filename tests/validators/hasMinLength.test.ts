@@ -2,7 +2,7 @@ import { validate, hasMinLength } from '../../dist'
 
 const minLength = 6
 
-describe('hasMinLength', () => {
+describe('#hasMinLength', () => {
   describe('handles valid values:', () => {
     test('longer string', async () => {
       const { isValid } = await validate({ value: 'dolor sid amed'}, { value: [hasMinLength(minLength)]})
@@ -54,6 +54,6 @@ describe('hasMinLength', () => {
 
   test('returns error message', async () => {
     const { errors } = await validate({ value: 'lorem' }, { value: [hasMinLength(minLength, 'Error message')]})
-    expect(errors.value).toBe('Error message');
+    expect(errors.value).toStrictEqual(['Error message']);
   })
 });

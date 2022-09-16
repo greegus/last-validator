@@ -2,7 +2,7 @@ import { validate, hasMaxLength } from '../../dist'
 
 const maxLength = 6
 
-describe('hasMaxLength', () => {
+describe('#hasMaxLength', () => {
   describe('handles valid values:', () => {
     test('shorter string', async () => {
       const { isValid } = await validate({ value: 'lorem'}, { value: [hasMaxLength(maxLength)]})
@@ -54,6 +54,6 @@ describe('hasMaxLength', () => {
 
   test('returns error message', async () => {
     const { errors } = await validate({ value: 'dolor sid amed' }, { value: [hasMaxLength(maxLength, 'Error message')]})
-    expect(errors.value).toBe('Error message');
+    expect(errors.value).toStrictEqual(['Error message']);
   })
 });

@@ -1,6 +1,6 @@
 {
   "name": "last-validator",
-  "version": "1.4.2",
+  "version": "2.0.beta.0",
   "description": "Asynchronous validation tool",
   "type": "commonjs",
   "license": "MIT",

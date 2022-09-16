@@ -5,13 +5,14 @@ import isNaN from "lodash/isNaN"
 import { Validator } from "../types"
 import { isNotSet } from "../utils/isNotSet"
 import { defaultErrorMessages } from "../defaultErrorMessages"
+import { test } from './test'
 
 export function hasMaxLength(maxLength: number, errorMessage?: string): Validator {
   errorMessage = errorMessage || defaultErrorMessages.hasMaxLength
 
-  return ({ value, resolve, reject }) => {
+  return test((value) => {
     if (isNotSet(value)) {
-      return resolve()
+      return true
     }
 
     if (isNumber(value) && !isNaN(value)) {
@@ -19,9 +20,8 @@ export function hasMaxLength(maxLength: number, errorMessage?: string): Validato
     }
 
     if (isString(value) && value.length <= maxLength) {
-      return resolve()
+      return true
     }
 
-    reject(errorMessage)
-  }
+  }, errorMessage)
 }

@@ -3,7 +3,7 @@ import { validate, isLessThan } from '../../dist'
 const maxValue = 10
 const minDate = new Date(2010)
 
-describe('isLessThan', () => {
+describe('#isLessThan', () => {
   describe('handles valid values:', () => {
     test('9', async () => {
       const { isValid } = await validate({ value: 9 }, { value: [isLessThan(maxValue)]})
@@ -55,6 +55,6 @@ describe('isLessThan', () => {
 
   test('returns error message', async () => {
     const { errors } = await validate({ value: 11 }, { value: [isLessThan(maxValue, 'Error message')]})
-    expect(errors.value).toBe('Error message');
+    expect(errors.value).toStrictEqual(['Error message']);
   })
 })

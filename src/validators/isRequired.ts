@@ -1,40 +1,42 @@
-import { Validator } from "../types"
-
 import isNumber from 'lodash/isNumber'
 import isEmpty from 'lodash/isEmpty'
 import isNaN from 'lodash/isNaN'
 import isDate from 'lodash/isDate'
 import { defaultErrorMessages } from "../defaultErrorMessages"
+import { Validator } from "../types"
+
+import { Validator } from "../types"
 
 export const isRequired = (errorMessage?: string, { acceptWhitespaces }: { acceptWhitespaces?: boolean } = {}): Validator => {
   errorMessage = errorMessage || defaultErrorMessages.isRequired
 
-  return ({ value, resolve, reject }) => {
+  return async (value) => {
     if (value === true) {
-      return resolve()
+      return { isValid: true}
     }
 
     if (isNumber(value) && !isNaN(value)) {
-      return resolve()
+      return { isValid: true}
     }
 
     if (isDate(value)) {
-      return isNaN(value?.getTime()) ? reject(errorMessage) : resolve()
-    }
-
-    if (!acceptWhitespaces && typeof value === 'string') {
-      value = value.trim()
+      const isValid = !isNaN(value?.getTime())
+      return { isValid, errors: isValid ? undefined : errorMessage}
     }
 
     // Dummy way of testing a Blob
     if (value && typeof value === 'object' && 'arrayBuffer' in value) {
-      return resolve()
+      return { isValid: true }
     }
 
-    if (!isEmpty(value)) {
-      return resolve()
+    const formatedValue = typeof value === 'string' && !acceptWhitespaces
+      ? (value as string).trim()
+      : value
+
+    if (!isEmpty(formatedValue)) {
+      return { isValid: true }
     }
 
-    reject(errorMessage)
+    return { isValid: false, errors: errorMessage }
   }
 }

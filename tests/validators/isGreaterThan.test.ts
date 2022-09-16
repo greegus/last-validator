@@ -3,7 +3,7 @@ import { validate, isGreaterThan } from '../../dist'
 const minValue = 10
 const minDate = new Date(2010)
 
-describe('isGreaterThan', () => {
+describe('#isGreaterThan', () => {
   describe('handles valid values:', () => {
     test('11', async () => {
       const { isValid } = await validate({ value: 11 }, { value: [isGreaterThan(minValue)]})
@@ -60,6 +60,6 @@ describe('isGreaterThan', () => {
 
   test('returns error message', async () => {
     const { errors } = await validate({ value: 9 }, { value: [isGreaterThan(minValue, 'Error message')]})
-    expect(errors.value).toBe('Error message');
+    expect(errors.value).toStrictEqual(['Error message']);
   })
 })
