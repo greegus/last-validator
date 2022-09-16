@@ -5,6 +5,8 @@ import isDate from 'lodash/isDate'
 import { defaultErrorMessages } from "../defaultErrorMessages"
 import { Validator } from "../types"
 
+import { Validator } from "../types"
+
 export const isRequired = (errorMessage?: string, { acceptWhitespaces }: { acceptWhitespaces?: boolean } = {}): Validator => {
   errorMessage = errorMessage || defaultErrorMessages.isRequired
 

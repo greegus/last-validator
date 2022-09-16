@@ -1,5 +1,3 @@
->  **last-validator@2.0**
-> This is the documentation for the v1.x. There is an upcoming release v2.0 (currently in beta) and you can find [./README-next.md](its documentation here)
 
 # Last Validation Service
 
@@ -33,13 +31,13 @@ const data = {
 }
 
 const rules = {
-  fullName: isRequired(),
-  email: [ isRequired(), isEmail() ]
-  age: [ isRequired(), isGreaterOrEqualThan(15, "*Sigh*, you're too young to drive this thing!") ],
+  fullName: [isRequired()],
+  email: [isRequired(), isEmail()],
+  age: [isRequired(), isGreaterOrEqualThan(15, "*Sigh*, you're too young to drive this thing!")],
   address: {
-    street: isRequired('Street is required'),
-    city: isRequired('City is required')
-    state: isRequired('State is required')
+    street: [isRequired('Street is required')],
+    city: [isRequired('City is required')],
+    state: [isRequired('State is required')]
   },
   keywords: every([isRequired(), hasMaxLength(24)])
 }
@@ -65,48 +63,22 @@ const { isValid, errors } = await validate(data, rules)
 */
 ```
 
-### Validate arrays
+
+
+If you need to define rules object dynamically you can pass it as a function that would generate it on the fly
 
 ```typescript
-import { validate, isRequired } from 'last-validator'
-
-const jobPositions = [
-  {
-    position: '...',
-    company: '...',
-    startDate: '...',
-    endDate: '...'
-  },
-
-  {
-    position: '...',
-    company: '...',
-    startDate: '...',
-    endDate: '...'
-  },
-
-  // ...
-]
-
-const jobPositionRules = {
-  position: [isRequired()],
-  startDate: [isRequired()]
-}
-
-const { isValid, errors } = await validate({jobPositions}, {
-  jobPosition: [every(jobPositionRules)]
+const jobApplication = (job) => ({
+  createdAt: [isLessOrEqualThan(job.startDate)]
 })
 ```
 
-If you need to adjust the rules dynamically, you can just pass a function that will generate them
-
+The same applies for the list of validators
 
 ```typescript
-const rules = (job) => ({
-  endDate: [isLessOrEqualThan(job.startDate)]
-
-  // ...
-})
+const jobApplication = {
+  createdAt: (job) => [isLessOrEqualThan(job.startDate)]
+}
 ```
 
 ## Build-in validators
@@ -155,37 +127,7 @@ const rules = {
 }
 ```
 
-## Array validations
-
-For testing values containing array, you can use `every` and `some` validation helpers, working respectfully to the JS Array methods.
-
-```typescript
-const data = {
-  keywords: ['validator', 'data validation', '', 'Simple and extendable asynchronous object validation tool']
-}
-
-const rules = {
-  keywords: every([
-    isRequired('Empty keywords are not allowed'),
-    hasMaxLength(32, 'Every keyword should be shorter than 32 chars')
-  ])
-}
-
-const { errors } = validate(data, rules)
-
-/*
-errors = {
-  keywords: {
-    '0': [ undefined, undefined ],
-    '1': [ undefined, undefined ],
-    '2': [ 'Empty keywords are not allowed', undefined ],
-    '3': [ undefined, 'Every keyword should be shorter than 32 chars' ]
-  }
-}
-*/
-```
-
-## Composing validation methods
+## Composed/nested validation methods
 
 When your data structure contain an object that already have an existing validation method, you can reuse that method using `validBy` helper.
 
@@ -203,27 +145,81 @@ const car = {
 }
 
 const validateDriver = (driver) => validate(driver, {
-  name: [isRequired()]
-  hasDrivingLicence: [isRequired()]
+  name: isRequired()
+  hasDrivingLicence: isRequired()
 })
 
 const validateCar = (car) => validate(car, {
   fuel: [isRequired(), isGreaterOrEqualThan(80)]
-  driver: [validBy(driverValidator)],
+  driver: validBy(driverValidator),
 })
 
 const results = await validateCar(car)
 ```
 
-## Default error messages
+## Array validations
 
-You can use `setDefaultErrorMessages` to set a default error message for each built-in validator.
+For testing values containing array, you can use `every` and `some` validation helpers, working respectfully to the JS Array methods.
 
 ```typescript
-import { setDefaultErrorMessages } from 'last-validator'
+const data = {
+  keywords: [
+    'validator',
+    'data validation',
+    '',
+    'Simple and extendable asynchronous object validation tool'
+  ]
+}
 
-setDefaultErrorMessages({
-  isRequired: 'Field is required.',
-  ...
-})
+const rules = {
+  keywords: every([
+    isRequired('Empty keywords are not allowed'),
+    hasMaxLength(32, 'Every keyword should be shorter than 32 chars')
+  ])
+}
+
+const { errors } = validate(data, rules)
+
+/*
+errors = {
+  keywords: {
+    '0': [ null, null ],
+    '1': [ null, null ],
+    '2': [ 'Empty keywords are not allowed', null ],
+    '3': [ null, 'Every keyword should be shorter than 32 chars' ]
+  }
+}
+*/
+```
+
+You can also combine it with `validBy` method to validate a list of objects
+
+```typescript
+const data = {
+  jobPositions: [
+    {
+      position: '...',
+      company: '...',
+      startDate: '...',
+      endDate: '...'
+    },
+    {
+      position: '...',
+      company: '...',
+      startDate: '...',
+      endDate: '...'
+    },
+
+    // ...
+  ]
+}
+
+const jobPositionRules = {
+  position: [isRequired()],
+  startDate: [isRequired()]
+}
+
+const rules = {
+  jobPosition: [every([validBy(jobPositionRules)])]
+}
 ```
