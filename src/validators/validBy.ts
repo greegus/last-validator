@@ -1,7 +1,7 @@
 import { ValidationResults, Validator } from "../types"
 import { isNotSet } from "../utils/isNotSet"
 
-export const validBy = <T = any>(
+export const validBy = <T extends Record<string, any> = any>(
   validation: (value: any) => Promise<ValidationResults<T>>
 ): Validator => {
   return async (value) => {
